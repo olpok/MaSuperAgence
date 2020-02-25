@@ -7,7 +7,7 @@ use App\Repository\PropertyRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use Doctrine\Common\Persistence\ObjectManager;
+//use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,8 +40,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
          public function index():Response       
          {
              $property = $this->repository->findAllVisible();
-          //   $property[0]->setSold(true);
-          //   $this->em->flush();
 
              return $this->render('property/index.html.twig', [
                       'current_menu' => 'properties'
@@ -56,7 +54,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
         */
          public function show(Property $property, string $slug):Response  
          {
-            if($property-> getSlug() !== $slug){
+            if($property->getSlug() !== $slug){
               return $this->redirectToRoute('property.show', [
                   'id'=> $property->getId,
                   'slug' => $property->getSlug

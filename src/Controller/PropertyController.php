@@ -66,4 +66,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
                       'current_menu' => 'properties'
                         ] );
          } 
+         /*
+           public function index(PropertyRepository $repository)      
+         {
+             $property = $this->repository->findAllVisible();
+
+             return $this->render('property/index.html.twig', [
+                      'current_menu' => 'properties'
+             ] );
+         }*/
      }

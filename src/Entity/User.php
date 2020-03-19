@@ -79,19 +79,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string|null The encoded password if any
-     */
-  /*  public function getPassword()
-    {
-        return  $password;
-    }*/
-
-    /**
      * Returns the salt that was originally used to encode the password.
      *
      * This can return null if the password was not encoded using a salt.
@@ -102,13 +89,6 @@ class User implements UserInterface, \Serializable
     {
         return null;
     }
-
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-   /* public function getUsername();*/
 
     /**
      * Removes sensitive data from the user.

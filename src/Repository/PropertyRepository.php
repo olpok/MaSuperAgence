@@ -41,6 +41,16 @@ class PropertyRepository extends ServiceEntityRepository
                 ->setParameter('minsurface', $search->getMinSurface());
         }
 
+        if($search->getPreferences()->count() > 0){
+            $k = 0;
+            foreach ($search->getPreferences() as $preference) {
+                $k++;
+                $query=$query
+                    ->andWhere(":preference$k MEMBER of p.preferences")
+                    ->setParameter("preference$k", $preference);
+            }
+        }
+
          return $query->getQuery() ;
     }
 

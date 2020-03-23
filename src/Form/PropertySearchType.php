@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Preference;
 use App\Entity\PropertySearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -28,6 +30,14 @@ class PropertySearchType extends AbstractType
                     'placeholder' => 'Budget max'
                 ]
             ])
+            ->add('preferences', EntityType::class, [
+                'label'=> false,
+                'required'=> false,
+                'class' => Preference::class,
+                'choice_label'=>'name',
+                'multiple'=> true
+                ]
+            )
         ;
     }
 
@@ -39,6 +49,7 @@ class PropertySearchType extends AbstractType
             'csrf_protection' => false
         ]);
     }
+    
     public function getBlockPrefix()
     {
         return '';

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
@@ -101,9 +103,16 @@ class Property
      */
     private $created_at;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Preference", inversedBy="properties")
+     */
+    private $preferences;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        $this->options = new ArrayCollection();
+        $this->preferences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -280,6 +289,34 @@ class Property
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Preference[]
+     */
+    public function getPreferences(): Collection
+    {
+        return $this->preferences;
+    }
+
+    public function addPreference(Preference $preference): self
+    {
+        if (!$this->preferences->contains($preference)) {
+            $this->preferences[] = $preference;
+            $preference->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreference(Preference $preference): self
+    {
+        if ($this->preferences->contains($preference)) {
+            $this->preferences->removeElement($preference);
+            $preference->removeProperty($this);
+        }
 
         return $this;
     }

@@ -81,6 +81,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
          public function edit(Property $property, Request $request): Response     
          {
+            // $preference = new Preference();
+            // $property->addPreference($preference);
+
              $form =  $this->createForm(PropertyType::class, $property);    
              $form->handleRequest($request);  
                if ($form->isSubmitted() && $form->isValid()) {
@@ -109,6 +112,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
                 $this->em->remove($property);
                 $this->em->flush();
                 $this->addFlash('success', 'Bien supprimé avec success');
+
+                //if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->request->get('_token'))) {
 
       /*        if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->get('_token'))) 
                 if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token')))

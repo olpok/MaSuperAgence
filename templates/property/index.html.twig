@@ -1,48 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Tous nos biens
+	Tous nos biens
 {% endblock %}
 
 {% block body %}
 
-<div class="jumbotron">
-	<div class="container">
-		{{form_start(form)}}
-		<div class="form-row align-items-end">
-			<div class="col">
-				{{form_row(form.minSurface)}}
-			</div>
-			<div class="col">
-				{{form_row(form.maxPrice)}}
-			</div>
-			<div class="col">
-				<div class="form-group">
-					<button class="btn btn-primary">Rechercher</button>
+	<div class="jumbotron">
+		<div class="container">
+			{{form_start(form)}}
+			<div class="form-row align-items-end">
+				<div class="col">
+					{{form_row(form.minSurface)}}
 				</div>
+				<div class="col">
+					{{form_row(form.maxPrice)}}
+				</div>
+				<div class="col">
+					{{form_row(form.preferences)}}
+				</div>
+				<div class="col">
+					<div class="form-group">
+						<button class="btn btn-primary">Rechercher</button>
+					</div>
 
+				</div>
 			</div>
+
+
+			{{form_end(form)}}
 		</div>
-
-
-		{{form_end(form)}}
 	</div>
-</div>
 
 
-<div class="container m-t=5">
+	<div class="container m-t=5">
 
-	<h1>Voir tous nos biens</h1>
-	<div class="row">
-		{% for property in properties %}
-		<div class="col-md-4">
-			{% include "property/_property.html.twig" %}
+		<h1>Voir tous nos biens</h1>
+		<div class="row">
+			{% for property in properties %}
+				<div class="col-md-4">
+					{% include "property/_property.html.twig" %}
+				</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
+		<div class="pagination">
+			{{ knp_pagination_render(properties) }}
+		</div>
 	</div>
-	<div class="pagination">
-		{{ knp_pagination_render(properties) }}
-	</div>
-</div>
 
 {% endblock %}

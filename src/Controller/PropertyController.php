@@ -13,6 +13,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -50,8 +52,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
           // $properties = $this->repository->findAllVisible();        
            $properties =  $paginator->paginate($this->repository->findAllVisibleQuery($search), 
            $request->query->getInt('page', 1), /*page number*/
-        12
-    );
+            12
+            );
 
              return $this->render('property/index.html.twig', [
                       'current_menu' => 'properties',
@@ -66,10 +68,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
         * return Response
         * @param Property $property
         */
-         public function show(Property $property, string $slug):Response  
+         public function show(Property $property, string $slug, CacheManager $cacheManager, UploaderHelper $helper):Response  
          {
             if($property->getSlug() !== $slug){
-              return $this->redirectToRoute('property.show', [
+              return $this->redirectToRoute('property_show', [
                   'id'=> $property->getId,
                   'slug' => $property->getSlug
                ], 301);

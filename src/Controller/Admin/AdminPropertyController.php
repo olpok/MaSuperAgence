@@ -113,15 +113,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
                 $this->em->flush();
                 $this->addFlash('success', 'Bien supprimé avec success');
 
-                //if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->request->get('_token'))) {
+                //if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token'))) {
 
-      /*        if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->get('_token'))) 
-                if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token')))
+      /*        if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
                 {
+                $em = $this->getDoctrine()->getManager();  
+                $this->em->remove($property);
+                $this->em->flush();
+                $this->addFlash('success', 'Bien supprimé avec success');
                 return new Response ('Suppression');
                 }}*/
+/*
+                if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
+                {
+                $em = $this->getDoctrine()->getManager();  
+                $this->em->remove($property);
+                $this->em->flush();
+                $this->addFlash('success', 'Bien supprimé avec success');
+                }*/
 
-            //    return new Response ('Salut there');
+
                 return $this->redirectToRoute('admin_property_index');
             }
 

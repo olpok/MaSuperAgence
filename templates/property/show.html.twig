@@ -6,7 +6,15 @@
 	<div class="jumbotron">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8"></div>
+				<div class="col-md-8">
+					{% if property.fileName %}
+						<!-- 	<img src="/images/properties/{{property.fileName}}" alt="card-img-top" style="width:100; height:auto">-->
+						<img src="{{vich_uploader_asset(property,'imageFile') | imagine_filter('medium') }}" alt="card-img-top">
+
+					{% else %}
+						<img src="{{'/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top">
+					{% endif %}
+				</div>
 				<div class="col-md-4">
 					<h1>{{property.title}}</h1>
 					<h2>{{property.rooms}}
@@ -51,8 +59,14 @@
 
 				</table>
 			</div>
-			<div class="col md-4"></div>
-			<h2>Spécificités</h2>
+			<div class="col md-4">
+				<h2>Spécificités</h2>
+				<ul class="list-group">
+					{% for preference in property.preferences %}
+						<li class="list-group-item">{{preference.name}}</li>
+					{% endfor %}
+				</ul>
+			</div>
 		</div>
 	</div>
 

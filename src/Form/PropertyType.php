@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PropertyType extends AbstractType
@@ -25,8 +26,12 @@ class PropertyType extends AbstractType
             ->add('heat', ChoiceType::class, ['choices' => $this->getChoices()])
             ->add('preferences', EntityType::class, [
                 'class' => Preference::class,
+                'required' => false,
                 'choice_label'=>'name',
                 'multiple'=> true
+            ])
+            ->add('imagefile', FileType::class, [
+                "required" => false
             ])
             ->add('city')
             ->add('address')

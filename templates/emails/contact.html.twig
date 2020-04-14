@@ -1,0 +1,34 @@
+{% block body  %}
+
+	{{ '<h3>Test</h3>'|raw }}
+	<table class="">
+
+		<h1>Demande de contact:
+			{{contact.property.title}}</h1>
+		<p>Une nouvelle personne souhaiterait obtenir plus d'informations à propos du bien
+			<a href="{{ url('property_show', {id:contact.property.id, slug:contact.property.slug}) }} "></a>
+			{{contact.property.title}}
+		</p>
+		<tr>
+			<td>Prénom</td>
+			<td>{{contact.firstname }}</td>
+		</tr>
+		<tr>
+			<td>Nom</td>
+			<td>{{contact.lastname}}</td>
+		</tr>
+		<tr>
+			<td>Téléphone</td>
+			<td>{{contact.phone}}</td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td>{{contact.email}}</td>
+		</tr>
+		<tr>
+			<td>Message</td>
+			<td>{{contact.message|nl2br}}</td>
+		</tr>
+
+	</table>
+{% endblock %}

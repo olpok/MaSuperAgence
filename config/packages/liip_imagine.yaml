@@ -3,12 +3,6 @@
     # valid drivers options include "gd" or "gmagick" or "imagick"
     #driver: "gd"
 
-
-#liip_imagine:
-    #resolvers:
-        #default:
-            #web_path: ~
-
 liip_imagine:
     
     filter_sets:

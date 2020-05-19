@@ -112,19 +112,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
                 $this->em->remove($property);
                 $this->em->flush();
                 $this->addFlash('success', 'Bien supprimé avec success');
-
-                //if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token'))) {
+ 
+               //if ($this->isCsrfTokenValid('admin/delete'.$property->getId(), $request->request->get('_token'))) {
 
       /*        if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
                 {
-                $em = $this->getDoctrine()->getManager();  
-                $this->em->remove($property);
-                $this->em->flush();
+                $entityManager = $this->getDoctrine()->getManager();  
+                $entityManager->remove($property);
+                $entityManager->flush();
                 $this->addFlash('success', 'Bien supprimé avec success');
-                return new Response ('Suppression');
                 }}*/
-/*
-                if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
+
+
+ /*               if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
                 {
                 $em = $this->getDoctrine()->getManager();  
                 $this->em->remove($property);

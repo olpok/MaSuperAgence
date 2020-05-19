@@ -64,8 +64,6 @@ class Property
     private $description;
 
     /**
-     * 
-     * 
      * @ORM\Column(type="integer")
      * @Assert\Range(
      *     min = 10,
@@ -138,7 +136,6 @@ class Property
     public function __construct()
     {
         $this->created_at = new \DateTime();
-        $this->options = new ArrayCollection();
         $this->preferences = new ArrayCollection();
     }
 
@@ -348,6 +345,9 @@ class Property
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
       public function getFileName(): ?string
     {
         return $this->fileName;
@@ -366,6 +366,10 @@ class Property
         return $this->imageFile;
     }
 
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     * @return Property
+     */
     public function setImageFile(File $imageFile): Property
     {
         $this->imageFile = $imageFile;

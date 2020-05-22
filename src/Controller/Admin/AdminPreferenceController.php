@@ -83,7 +83,7 @@ class AdminPreferenceController extends AbstractController
      */
     public function delete(Request $request, Preference $preference): Response
     {
-        if ($this->isCsrfTokenValid('admin/delete'.$preference->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$preference->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($preference);
             $entityManager->flush();

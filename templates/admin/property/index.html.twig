@@ -30,12 +30,11 @@
 						<td>{{property.title}}</td>
 						<td>
 							<a href="{{path('admin_property_edit', {id: property.id} ) }}" class="btn btn-secondary">Editer</a>
-							<form method="post" action="{{path('admin_property_delete', {id: property.id} ) }}" style=" display: inline-block" onsubmit="return confirm('Etes-vous vraiùent sûr?')">
 
+							<form method="post" action="{{ path('admin_property_delete', {'id': property.id}) }}" style=" display: inline-block" onsubmit="return confirm('Etes-vous vraiùent sûr?');">
 								<input type="hidden" name="_method" value="DELETE">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id ) }} ">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id) }}">
 								<button class="btn btn-danger">Supprimer</button>
-
 							</form>
 						</td>
 					</tr>

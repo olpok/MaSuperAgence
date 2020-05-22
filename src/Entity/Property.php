@@ -9,16 +9,15 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\Image;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+//use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\All;
+//use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity("title")
- * @Vich\Uploadable
  */
 class Property
 {
@@ -34,21 +33,7 @@ class Property
      */
     private $id;
 
-    /**
-     * @Vich\UploadableField(mapping="property_image", fileNameProperty="fileName")
-     * @Assert\Image(
-     *      mimeTypes = "image/jpeg"
-     * )
-     * @var File|null
-     */
-    private $imageFile;
-    
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string|null
-     */
-    private $fileName;
+
 
     /**
      * @Assert\Length(
@@ -132,11 +117,24 @@ class Property
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="property", orphanRemoval=true, cascade={"persist"} )
+     */
+    private $pictures;
+
+    /**
+     * @Assert\All({
+     *      @Assert\Image(mimeTypes = "image/jpeg")
+     * })
+     */
+    private $pictureFiles;
+
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->preferences = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,54 +343,7 @@ class Property
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-      public function getFileName(): ?string
-    {
-        return $this->fileName;
-    }
 
-    public function setFileName(?string $fileName): Property
-    {
-        $this->fileName = $fileName;
-
-        return $this;
-    }
-
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     * @return Property
-     */
-    public function setImageFile(File $imageFile): Property
-    {
-        $this->imageFile = $imageFile;
-
-        // Only change the updated af if the file is really uploaded to avoid database updates.
-        // This is needed when the file should be set when loading the entity.
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTime('now');
-        }
-
-        return $this;
-    }
-/*
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        // Only change the updated af if the file is really uploaded to avoid database updates.
-        // This is needed when the file should be set when loading the entity.
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTime('now');
-        }
-    }*/
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -406,4 +357,70 @@ class Property
         return $this;
     }
 
+    /**
+     * @return Collection|Picture[]
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function getPicture(): ?Picture
+    {
+        if ($this->pictures->isEmpty()) {
+            return null;
+        } else{
+            return $this->pictures[0];
+          //  return $this->pictures->first();
+        }
+
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getProperty() === $this) {
+                $picture->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Get )}
+     */ 
+    public function getPictureFiles()
+    {
+        return $this->pictureFiles;
+    }
+
+    /**
+     * @param [type] $pictureFiles
+     * @return Property
+     */ 
+    public function setPictureFiles($pictureFiles)
+    {
+        foreach ($pictureFiles as $pictureFile){
+            $picture = new Picture();
+            $picture->setImageFile($pictureFile);
+            $this->addPicture($picture);
+        }
+        $this->pictureFiles = $pictureFiles;
+
+        return $this;
+    }
 }

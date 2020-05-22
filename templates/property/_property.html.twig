@@ -1,9 +1,9 @@
 <div class="card mb-4">
-	{% if property.fileName %}
-		<!-- 	<img src="/images/properties/{{property.fileName}}" alt="card-img-top" style="width:100; height:auto">-->
-		<img src="{{vich_uploader_asset(property,'imageFile') | imagine_filter('thumb') }}" alt="card-img-top">
+	{% if property.picture %}
+		<!-- 	<img src="/images/properties/{#{property.fileName}#}" alt="card-img-top" style="width:100; height:auto">-->
+		<img src="{{vich_uploader_asset(property.picture, 'imageFile') | imagine_filter('thumb') }}" alt="card-img-top">
 	{% else %}
-		<img src="{{'/images/properties/empty.jpg' | imagine_filter('thumb') }}" alt="card-img-top">
+		<img src="{{'/media/properties/empty.jpg' | imagine_filter('thumb') }}" alt="card-img-top">
 	{% endif %}
 	<div class="card-body">
 

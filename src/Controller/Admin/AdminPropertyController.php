@@ -3,8 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Property;
-//use App\Entity\AdminProperty;
-
 
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
@@ -44,8 +42,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
              
              return $this->render('admin/property/index.html.twig', compact('properties'));
          }
-
-         
+       
         /**
         * @Route ("/admin/property/create", name="admin_property_new")
         * return Response;
@@ -100,42 +97,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
          }
 
         /**
-        * @Route ("/admin/property/{id}", name="admin_property_delete", methods="DELETE")
-        * @param Property $property
-        * @param Request $request
-        * return Symfony\Component\HttpFoundation\Response;
+        * @Route("/admin/property/{id}", name="admin_property_delete", methods={"DELETE"})
         */
+        public function delete(Property $property, Request $request): Response
+        {
+            if ($this->isCsrfTokenValid('delete'.$property->getId(), $request->request->get('_token'))) {
+            $this->em->remove($property);
+            $this->em->flush();
+            $this->addFlash('success', 'Bien supprimé avec success');
+        }
 
-        public function delete(Property $property, Request $request )
-    
-            {               
-                $this->em->remove($property);
-                $this->em->flush();
-                $this->addFlash('success', 'Bien supprimé avec success');
- 
-               //if ($this->isCsrfTokenValid('admin/delete'.$property->getId(), $request->request->get('_token'))) {
-
-      /*        if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
-                {
-                $entityManager = $this->getDoctrine()->getManager();  
-                $entityManager->remove($property);
-                $entityManager->flush();
-                $this->addFlash('success', 'Bien supprimé avec success');
-                }}*/
-
-
- /*               if ($this->isCsrfTokenValid('admin/delete' . $property->getId(), $request->request->get('_token')))
-                {
-                $em = $this->getDoctrine()->getManager();  
-                $this->em->remove($property);
-                $this->em->flush();
-                $this->addFlash('success', 'Bien supprimé avec success');
-                }*/
-
-
-                return $this->redirectToRoute('admin_property_index');
-            }
-
-
+        return $this->redirectToRoute('admin_property_index');
+        } 
 
     }

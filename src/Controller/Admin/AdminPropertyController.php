@@ -78,9 +78,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
          public function edit(Property $property, Request $request): Response     
          {
-            // $preference = new Preference();
-            // $property->addPreference($preference);
-
              $form =  $this->createForm(PropertyType::class, $property);    
              $form->handleRequest($request);  
                if ($form->isSubmitted() && $form->isValid()) {

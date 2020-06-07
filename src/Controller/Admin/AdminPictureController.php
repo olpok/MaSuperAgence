@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -21,6 +22,21 @@ class AdminPictureController extends AbstractController{
      */
     public function delete(Request $request, Picture $picture): Response
     {
+        $data = json_decode($request->getContent(), true);
+
+        if ($this->isCsrfTokenValid('delete'.$picture->getId(), $data['_token'])) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($picture);
+            $entityManager->flush();
+            return new JsonResponse(['success' => 1]);
+        }
+        
+        return new JsonResponse(['error' => 'Token invalide', 400]);
+
+
+        /* $data['_token']
+
+
         $propertyId = $picture->getProperty()->getId();
 
         if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
@@ -28,8 +44,9 @@ class AdminPictureController extends AbstractController{
             $entityManager->remove($picture);
             $entityManager->flush();
         }
+        return $this->redirectToRoute('admin_property_edit', ['id' => $propertyId]);*/
 
-        return $this->redirectToRoute('admin_property_edit', ['id' => $propertyId]);
+
     }
 
 }

@@ -33,8 +33,6 @@ class Property
      */
     private $id;
 
-
-
     /**
      * @Assert\Length(
      *      min = 5,

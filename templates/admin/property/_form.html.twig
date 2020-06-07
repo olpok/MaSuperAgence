@@ -1,4 +1,4 @@
-{% for picture in property.pictures %}
+{#% for picture in property.pictures %}
 <div class="col" style="width:100 px; flex: none; margin: 5px">
 	<img src="{{vich_uploader_asset(picture,'imageFile') | imagine_filter('thumb') }} " width="100" alt="">
 
@@ -10,7 +10,7 @@
 	</form>
 
 </div>
-{% endfor %}
+{% endfor %#}
 
 
 {{ form_start(form) }}
@@ -23,7 +23,17 @@
 		</div>
 	</div>
 	<div class="md-col-4">
-		<div class="row-flex justify-content-start flex-wrap"></div>
+		<div class="row-flex justify-content-start flex-wrap">
+
+			{% for picture in property.pictures %}
+				<div class="col" style="width:100 px; flex: none; margin: 5px">
+					<img src="{{vich_uploader_asset(picture,'imageFile') | imagine_filter('thumb') }} " width="100" alt="">
+					<a href="{{ path('admin_picture_delete', {'id': picture.id}) }}" class="btn btn-danger" data-delete data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a>
+				</div>
+			{% endfor %}
+
+		</div>
+
 	</div>
 </div>
 

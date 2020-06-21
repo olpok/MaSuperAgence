@@ -51,6 +51,16 @@ class PropertyRepository extends ServiceEntityRepository
             }
         }
 
+        if ($search->getLat() && $search->getLng() && $search->getDistance()) {
+            $query= $query
+                ->select('p')
+                ->andWhere('(6353 * 2 * ASIN(SQRT(POWER(SIN((p.lat - abs(:lat)) * pi()/180 / 2), 2) + COS(p.lat * pi()/180 ) * COS(abs(:lat) * pi()/180) * POWER(SIN((p.lng - :lng) * pi()/180 / 2), 2) )) ) <= :distance')
+                ->setParameter('lng', $search->getLng())
+                ->setParameter('lat', $search->getLat())
+                ->setParameter('distance', $search->getDistance()) ;
+                    
+        }
+
          return $query->getQuery() ;
     }
 
@@ -72,6 +82,8 @@ class PropertyRepository extends ServiceEntityRepository
             ->Where('p.sold = false');
 
     }
+
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */

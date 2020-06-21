@@ -34,9 +34,7 @@ class AdminPictureController extends AbstractController{
         return new JsonResponse(['error' => 'Token invalide', 400]);
 
 
-        /* $data['_token']
-
-
+        /* avant AJAX 
         $propertyId = $picture->getProperty()->getId();
 
         if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
@@ -45,7 +43,6 @@ class AdminPictureController extends AbstractController{
             $entityManager->flush();
         }
         return $this->redirectToRoute('admin_property_edit', ['id' => $propertyId]);*/
-
 
     }
 

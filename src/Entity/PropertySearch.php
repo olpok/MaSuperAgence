@@ -28,6 +28,28 @@ class PropertySearch{
         $this->preferences= new ArrayCollection();
     }
 
+    
+    /**
+     * @var integer|null
+     */
+    private $distance;
+
+    /**
+     * @var float|null
+     */
+    private $lat;
+
+    /**
+     * @var float|null
+     */
+    private $lng;
+
+    /**
+     * @var string|null
+     */
+    private $address;
+
+
     /**
      * @return integer|null
      */
@@ -83,4 +105,82 @@ class PropertySearch{
         $this->preferences = $preferences;
     }
 
+
+    /**
+     * @return  float|null
+     */ 
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * @param  float|null  $lng
+     * @return  self
+     */ 
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * @return  float|null
+     */ 
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * @param  float|null  $lat
+     * @return PropertySearch
+     */ 
+    public function setLat(?float $lat) : PropertySearch
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * @return  integer|null
+     */ 
+    public function getDistance()
+    {
+        return $this->distance;
+    }
+
+    /**
+     * @param  integer|null  $distance
+     * @return  self
+     */ 
+    public function setDistance($distance)
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+
+    /**
+     * @return  string|null
+     */ 
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param  string|null  $address
+     *
+     * @return  self
+     */ 
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Picture;
 use App\Entity\Property;
 use App\Entity\PropertySearch;
+use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -15,17 +18,16 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class PropertyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Property::class);
+        $this->paginator = $paginator;
     }
 
-
-
     /**
-     * return Query
+     * return PaginationInterface
      */
-    public function findAllVisibleQuery(PropertySearch $search)
+    public function paginateAllVisible(PropertySearch $search, int $page): PaginationInterface
     {
        $query= $this->findVisibleQuery();
 
@@ -61,7 +63,16 @@ class PropertyRepository extends ServiceEntityRepository
                     
         }
 
-         return $query->getQuery() ;
+        $properties = $this-> paginator->paginate(
+            $query->getQuery(),
+            $page,
+            12
+            );
+         $this->hydratePicture($properties);
+
+         return $properties;
+
+        
     }
 
     /**
@@ -69,10 +80,14 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function findLatest(): array
     {
-        return $this->findVisibleQuery()
+      $properties = $this->findVisibleQuery()
             ->setMaxResults(4)
             ->getQuery()
             ->getResult() ;
+
+            $this->hydratePicture($properties);
+
+            return $properties;
     }
 
 
@@ -83,33 +98,21 @@ class PropertyRepository extends ServiceEntityRepository
 
     }
 
-
-    // /**
-    //  * @return Property[] Returns an array of Property objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    private function hydratePicture($properties)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        if(method_exists($properties, 'getItems')){
+            $properties = $properties->getitems();
+        }
+        $pictures=$this->getEntityManager()->getRepository(Picture::class)->findForProperties($properties);
+        foreach($properties as $property)
+         {
+            /** @var Property $property */
+             if ($pictures->containsKey($property->getId()))
+             {
+                 $property->setPicture($pictures->get($property->getId()));
+             }
+         }
+         return $properties ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Property
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

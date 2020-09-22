@@ -13,5 +13,5 @@ Installation
 2. Installer les dépendances : composer install
 3. Créer la base de données : bin/console doctrine:database:create
 4. Lancer la base de données : bin/console doctrine:schema:update –force
-5. Lancez le serveur interne :  php -S 127.0.0.1:8000 -t public
+5. Lancez le serveur interne :  symfony serve
 6. L'application est prête à être utilisée !
